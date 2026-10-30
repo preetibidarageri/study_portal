@@ -3,8 +3,8 @@ from rest_framework import serializers
 from .models import UserProfile
 
 class RegisterSerializer (serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True,min_lenght=8)
-    role = serializers.ChoiceField(choices=UserProfile.ROLECHOICES)
+    password = serializers.CharField(write_only=True, min_length=8)
+    role = serializers.ChoiceField(choices=UserProfile.ROLE_CHOICES, write_only=True)
 
     class Meta:
         model = User
@@ -18,7 +18,7 @@ class RegisterSerializer (serializers.ModelSerializer):
         ]
     
     def validate_email(self, value):
-        if User.objects.filter(email_iexact=value).exists():
+        if User.objects.filter(email__iexact=value).exists():
             raise serializers.ValidationError("This email is already registered.")
         return value
     
