@@ -1,0 +1,9 @@
+-----------------------------Step 1: Create the React frontend-----------------------
+
+1.  check  versions:  node -v  , npm -v
+2:  Create the React project:
+    npm create vite@latest frontend -- --template react
+    cd frontend  
+    npm install  
+    npm run dev
+

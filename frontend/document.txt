@@ -1,0 +1,208 @@
+-------------------------------------STEP 1 : Set up the project-------------------------
+1.  python3 --version
+    node --version
+    npm --version
+    git --version
+
+2.  mkdir SKSV-study-material-website
+    cd SKSV-study-material-website
+
+3.  cd backend
+    Create the virtual environment: python3 -m venv venv
+    Activate it: source venv/bin/activate
+
+4.  Install Django and the required packages
+    python -m pip install --upgrade pip
+    pip install django djangorestframework django-cors-headers djangorestframework-simplejwt "psycopg[binary]" Pillow
+
+packages
+1. Django: Backend framework
+2. Django REST Framework: APIs for React
+3. django-cors-headers: Allows the React frontend to communicate with Django
+4. Simple JWT: Token-based authentication,	Handle login authentication using tokens
+5. psycopg: PostgreSQL database connection
+6. Pillow: Image processing support for Django
+
+5.  Verify Django installation
+    django-admin --version
+
+-------------------------------------STEP 2 : Create the Django project-------------------------
+
+1. Check that you are in the backend folder : engineering-study-portal/backend
+2. Create the Django project : django-admin startproject config .
+3. Run the initial database migrations : python manage.py migrate(creates database tables using SQLite)
+4. Start the Django server : python manage.py runserver
+
+------------------------------------Step 3: Install PostgreSQL and connect it to Django.-----------------------
+
+1: Install PostgreSQL : sudo apt update
+                        sudo apt install postgresql postgresql-contrib -y
+    Check whether PostgreSQL is running: sudo systemctl status postgresql
+    psql --version
+
+2: Create the PostgreSQL database: sudo -u postgres psql
+    create a database user: CREATE USER study_user WITH PASSWORD 'StudyPortal_2026_Strong';
+    Create your project database: CREATE DATABASE study_portal OWNER study_user;
+    Give the user permission to connect: GRANT CONNECT ON DATABASE study_portal TO study_user;
+    Exit PostgreSQL: \q
+
+3:  Connect Django to PostgreSQL
+    cd ~/engineering-study-portal/backend
+    source venv/bin/activate
+    Confirm that the PostgreSQL driver is installed: pip install "psycopg[binary]"
+    Now open the Django settings file:
+    Find the section beginning with:
+
+import os
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("DB_NAME", "study_portal"),
+        "USER": os.environ.get("DB_USER", "study_user"),
+        "PASSWORD": os.environ["DB_PASSWORD"],
+        "HOST": os.environ.get("DB_HOST", "localhost"),
+        "PORT": os.environ.get("DB_PORT", "5432"),
+    }
+}
+
+4:  Set the database credentials: 
+    export DB_NAME=study_portal
+    export DB_USER=study_user
+    export DB_PASSWORD='StudyPortal_2026_Strong'
+    export DB_HOST=localhost
+    export DB_PORT=5432
+
+5: Test the database connection: python manage.py check
+    python manage.py migrate
+    python manage.py runserver
+
+---------------------------------Step 4: Create a Django superuser-------------------
+
+1. Create the superuser: python manage.py createsuperuser
+
+(NOTE: pip install psycopg2-binary :- Django is written in Python, and PostgreSQL is written in C. 
+Python cannot natively send queries (like SELECT * FROM users) to a PostgreSQL database. 
+psycopg2 is the official database driver (the translator) that connects Django to PostgreSQL.)
+
+---------------------------------Step 5: Create the Django app -------------------
+
+1:  Create the app: 
+    Make sure you're in your backend directory: cd ~/SKSV-study-material-website/backend
+    Ensure your virtual environment is active: source venv/bin/activate
+    create a Django app; python manage.py startapp study_portal
+
+2:  Register the app: in installed apps in settings.py file
+    Verify the setup: python manage.py check
+
+-------------------------------Step 6: Create the database models.-------------------
+
+1.  Create the database models in models.py file
+
+    Engineering Branch
+        │
+        └── Semester
+            │
+            └── Subject
+                    │
+                    └── Module
+                        │
+                        └── Study Notes (PDF)
+
+    { create models in model.py then register in admin.py then run migrations}
+
+2.  Create the database migration: python manage.py makemigrations study_portal
+    python manage.py migrate
+    python manage.py check
+
+--------------------------------------step 7: Register Engineering Branches in Django Admin-------------------------------------
+    
+    After writing code in admin.py fiel to register branches python manage.py check
+    Add  branches in admin panel
+
+---------------------------------Step 8: creating semester model---------------------------------
+
+same like branch model repeat
+
+------------------------------------Step 9: Set up the authentication system------------------------------------------
+
+1:  Open your backend terminal; cd ~/SKSV-study-material-website/backend
+    source venv/bin/activate
+2:  Install the required packages; pip install djangorestframework djangorestframework-simplejwt django-cors-headers
+3:  save the dependencies: pip freeze > requirements.txt
+
+--------------------------------------Step 10: Create student and teacher roles as userprofile like semester and branch-------------------------
+   
+    creating model amd registering in admin then migration
+
+-----------------------------------Step 13: Install Django REST Framework and JWT------------------------
+
+    bilding student and teacher registration API here 
+1 — Install the required packages: pip install djangorestframework djangorestframework-simplejwt django-cors-headers
+    save the dependencies: pip freeze > requirements.txt
+
+2 — Update config/settings.py ; INSTALLED_APPS = 'rest_framework', 'corsheaders',
+                                MIDDLEWARE = 'corsheaders.middleware.CorsMiddleware',
+
+3 — Configure JWT authentication : settings.py (This makes API endpoints require authentication by default.)
+    REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+            'rest_framework_simplejwt.authentication.JWTAuthentication',
+        ],
+        'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.IsAuthenticated',
+        ],
+    }
+
+----------------------------------Step 14: Create the registration serializer(create the student and teacher registration API.)--------------------------
+
+    A serializer converts data received from React into Django database records. 
+    It will also validate the registration details and securely hash passwords.
+
+1 — Create serializers.py : inside study portal app
+
+    write serializer code to  
+        Accepts username, name, email, and password.
+        Allows only student or teacher roles.
+        Checks whether the email is already registered.
+        Requires a password of at least 8 characters.
+        Hashes the password instead of storing it as plain text.
+        Automatically creates the corresponding student or teacher profile.
+
+-------------------------------Step 15: Create the registration API------------------------------
+
+1 — Open study_portal/views.py write code of view 
+    Allows students and teachers to register without logging in first.
+    Uses the serializer we created in Step 14.
+    Validates registration details.
+    Creates the user and their corresponding profile.
+
+------------------------------Step 16: Configure API URLs(connect the registration API to a URL.)---------------------------
+
+1 — Create study_portal/urls.py : write urls patter code
+2 — Connect the app URLs to the main project : open config/urls.py  connect app url in  urlpatterns of config/urls
+
+------------------------------------set up the login API----------------------------
+
+1:  Open study_portal/urls.py 
+    This adds:
+    - api/token/ — login and receive access and refresh tokens.
+    - api/token/refresh/ — get a new access token.
+    
+    test it
+
+-------------------------------create an API that returns the currently logged-in user's details and role.---------------------------------
+
+1: Create a profile API : in study_portal/views.py
+     the profile API to your URL 
+2: Update study_portal/urls.py : UserProfileView to the import.
+    it   a profile endpoint: http://127.0.0.1:8000/api/profile/ Only authenticated users can access it. 
+    
+    test it
+
+---------------------------------step 17; create Branch API allows students to retrieve all available branches from the database----------------------------
+
+added code in views.py then addded in urls.py then tested
+
+-----------------------------------step 18 : Semester API so that when a student selects a branch, they can see the semesters belonging to that branch.------------------
+
