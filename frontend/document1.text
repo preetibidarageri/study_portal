@@ -7,3 +7,52 @@
     npm install  
     npm run dev
 
+3.  frontend folder structure
+    src/
+    │
+    ├── assets/
+    │
+    ├── components/
+    │   ├── Navbar/
+    │   │   ├── Navbar.jsx
+    │   │   └── Navbar.module.css
+    │   │
+    │   ├── Footer/
+    │   │   ├── Footer.jsx
+    │   │   └── Footer.module.css
+    │   │
+    │   └── FeatureCard/
+    │       ├── FeatureCard.jsx
+    │       └── FeatureCard.module.css
+    │
+    ├── pages/
+    │   └── Home/
+    │       ├── Home.jsx
+    │       └── Home.module.css
+    │
+    ├── data/
+    │   └── home.json
+    │
+    ├── App.jsx
+    ├── App.css
+    └── main.jsx
+
+after creating home page installed react router inside frontend
+
+npm install react-router-dom
+
+2: Create the pages folder structure
+    pages/
+    ├── Home/
+    ├── StudentLogin/
+    ├── TeacherLogin/
+    ├── StudentRegister/
+    ├── TeacherRegister/
+    ├── StudentDashboard/
+    ├── BranchSelection/
+    └── SemesterSelection/
+    
+3: Create the Student Login folder structure: writing login.json data,then code of jsx and css 
+4: Install Axios : use Axios to communicate with Django
+2: Create an API configuration file: it ll keep our backend URL in one place instead of repeating it throughout the frontend.
+    File: src/services/api.js :This file creates a reusable Axios instance for communicating with Django.

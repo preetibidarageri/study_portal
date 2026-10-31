@@ -1,0 +1,6 @@
+{
+  "title": "Student Dashboard",
+  "subtitle": "Choose a branch to view its study materials.",
+  "branchButton": "Choose Branch",
+  "logoutButton": "Log out"
+}

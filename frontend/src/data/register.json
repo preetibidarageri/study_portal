@@ -1,0 +1,35 @@
+{
+  "title": "Create an account",
+  "subtitle": "Register as a student or teacher.",
+  "fields": {
+    "username": {
+      "label": "Username",
+      "placeholder": "Choose a username"
+    },
+    "first_name": {
+      "label": "First name",
+      "placeholder": "Enter your first name"
+    },
+    "last_name": {
+      "label": "Last name",
+      "placeholder": "Enter your last name"
+    },
+    "email": {
+      "label": "Email address",
+      "placeholder": "Enter your email address"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Create a password"
+    },
+    "role": {
+      "label": "Register as",
+      "student": "Student",
+      "teacher": "Teacher"
+    }
+  },
+  "button": "Create account",
+  "loginText": "Already have an account?",
+  "studentLoginLink": "Student login",
+  "teacherLoginLink": "Teacher login"
+}

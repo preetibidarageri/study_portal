@@ -1,0 +1,57 @@
+{
+  "navbar": {
+    "logo": "SKSV Study Portal",
+    "links": [
+      {
+        "lable": "Home",
+        "url": "/"
+      },
+      {
+        "label": "About",
+        "url": "#about"
+      },
+      {
+        "label": "Contact",
+        "url": "#contact"
+      }
+    ],
+    "buttons": [
+      {
+        "label": "Login",
+        "url": "/login"
+      },
+      {
+        "label": "Register",
+        "url": "/register"
+      }
+    ]
+  },
+  "hero": {
+    "title": "Welcome to SKSV Study Material Portal",
+    "description": "Your one-stop destination for engineering study materials. Access notes, PDFs and learning resources anytime, anywhere.",
+    "button": {
+      "label": "Get Started",
+      "url": "/register"
+    }
+  },
+  "features": {
+    "heading": "What We Offer",
+    "items": [
+      {
+        "title": "Study Materials",
+        "description": "Access subject-wise notes and PDFs."
+      },
+      {
+        "title": "Semester Wise Learning",
+        "description": "Find learning materials according to your semester."
+      },
+      {
+        "title": "Easy Access",
+        "description": "Access your study resources whenever you need them."
+      }
+    ]
+  },
+  "footer": {
+    "copyright": "© 2026 SKSV Study Material Portal. All rights reserved."
+  }
+}

@@ -1,0 +1,22 @@
+.home {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.features {
+  padding: 60px 7%;
+  text-align: center;
+}
+
+.features h2 {
+  color: #183b70;
+  margin-bottom: 35px;
+  font-size: 30px;
+}
+
+.featureContainer {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}

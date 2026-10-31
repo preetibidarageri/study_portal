@@ -1,0 +1,22 @@
+.featureCard {
+  background: #ffffff;
+  padding: 30px;
+  width: 280px;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+}
+
+.featureCard h3 {
+  color: #183b70;
+  margin-bottom: 15px;
+}
+
+.featureCard p {
+  color: #666666;
+  line-height: 1.6;
+}

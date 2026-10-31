@@ -1,0 +1,87 @@
+.loginPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #eaf1fc;
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 420px;
+  padding: 36px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(24, 59, 112, 0.12);
+}
+
+.loginCard h1 {
+  margin-bottom: 10px;
+  color: #183b70;
+  text-align: center;
+}
+
+.loginCard > p {
+  margin-bottom: 28px;
+  color: #666666;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.loginCard form {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginCard label {
+  margin-bottom: 8px;
+  color: #333333;
+  font-weight: 600;
+}
+
+.loginCard input {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.loginCard input:focus {
+  outline: 2px solid #9bb9e8;
+  border-color: #183b70;
+}
+
+.loginCard button {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #183b70;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.loginCard button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.error {
+  margin-bottom: 16px;
+  color: #b42318;
+  font-size: 14px;
+}
+
+.registerText {
+  margin-top: 22px;
+  color: #555555;
+  text-align: center;
+}
+
+.registerText a {
+  color: #183b70;
+  font-weight: 600;
+}

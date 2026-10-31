@@ -1,0 +1,23 @@
+{
+  "title": "Student Login",
+  "subtitle": "Welcome back! Access your study materials.",
+  "icon": "fingerprint",
+  "fields": {
+    "username": {
+      "label": "Username",
+      "placeholder": "Enter your username"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password"
+    }
+  },
+  "button": "Login",
+  "passwordToggle": {
+    "show": "Show",
+    "hide": "Hide"
+  },
+  "registerText": "Don't have an account?",
+  "registerLinkText": "Register here",
+  "registerUrl": "/student/register"
+}
