@@ -71,7 +71,6 @@ function StudentDashboard() {
         setLoading(false);
       }
     };
-
     loadDashboard();
   }, [navigate]);
 
@@ -200,7 +199,15 @@ function StudentDashboard() {
                     key={semester.id}
                     type="button"
                     className={styles.semesterCard}
-                    onClick={() => setSelectedSemester(semester)}
+                    onClick={() =>
+                      navigate("/subjects", {
+                        state: {
+                          branch: selectedBranch,
+                          semester,
+                          role: userRole,
+                        },
+                      })
+                    }
                   >
                     {semester.name || `Semester ${semester.number}`}
                   </button>
@@ -210,7 +217,7 @@ function StudentDashboard() {
           </section>
         )}
 
-        {selectedBranch && selectedSemester && (
+        {/* {selectedBranch && selectedSemester && (
           <section className={styles.semesterSection}>
             <button
               type="button"
@@ -244,7 +251,7 @@ function StudentDashboard() {
               <p>Subjects for this branch and semester will appear here.</p>
             )}
           </section>
-        )}
+        )} */}
       </section>
     </main>
   );

@@ -21,16 +21,13 @@ function TeacherLogin() {
 
     try {
       const response = await api.post("token/", formData);
-
       const profileResponse = await api.get("profile/", {
         headers: { Authorization: `Bearer ${response.data.access}` },
       });
-
       if (profileResponse.data.role !== "teacher") {
         setError("This login is only for teachers.");
         return;
       }
-
       localStorage.setItem("accessToken", response.data.access);
       localStorage.setItem("refreshToken", response.data.refresh);
       navigate("/dashboard");

@@ -46,13 +46,33 @@ npm install react-router-dom
     ├── Home/
     ├── StudentLogin/
     ├── TeacherLogin/
-    ├── StudentRegister/
-    ├── TeacherRegister/
-    ├── StudentDashboard/
-    ├── BranchSelection/
-    └── SemesterSelection/
+    ├── Register/
+    ├── Dashboard/
+
     
 3: Create the Student Login folder structure: writing login.json data,then code of jsx and css 
 4: Install Axios : use Axios to communicate with Django
 2: Create an API configuration file: it ll keep our backend URL in one place instead of repeating it throughout the frontend.
     File: src/services/api.js :This file creates a reusable Axios instance for communicating with Django.
+
+after creating home and sepearte login for teacher and Student Register from thrn dashboard dynamic fron both roles
+for teacher to select branch then semester naviagting to subject to add subject for teacher
+for student they can select branch then semester then after clicking semester navigation from dashboard to subjects page
+
+----------------------------------Step 2: build the Subjects API -------------------------------
+
+    model, serializer, views, and URLs.
+
+1. Add the Subject model(write model code in models.py): allows the same subject name in different semesters, but prevents duplicate subject names within one semester.
+2. Create the migration: 
+    python manage.py makemigrations study_portal
+    python manage.py migrate
+3. Add a serializer
+4. Create the API views this view code 
+    This supports:
+    - GET /api/subjects/?branch_id=1&semester_id=2
+    - POST /api/subjects/
+5. Add the URL:
+teacher-only subject creation and branch–semester validation.
+6.  Create a permission class In study_portal/permissions.py, add: permission code in python
+7.  Update the subject view

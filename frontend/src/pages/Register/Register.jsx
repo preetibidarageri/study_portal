@@ -6,7 +6,6 @@ import api from "../../services/api";
 
 function Register() {
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     username: "",
     first_name: "",
@@ -15,7 +14,6 @@ function Register() {
     password: "",
     role: "student",
   });
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 

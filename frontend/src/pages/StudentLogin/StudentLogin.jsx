@@ -27,6 +27,7 @@ export default function StudentLogin() {
           Authorization: `Bearer ${response.data.access}`,
         },
       });
+
       if (profileResponse.data.role !== "student") {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
@@ -63,6 +64,7 @@ export default function StudentLogin() {
             onChange={handleChange}
             required
           />
+
           <label htmlFor="password">{loginData.fields.password.label}</label>
           <input
             id="password"
@@ -73,11 +75,14 @@ export default function StudentLogin() {
             onChange={handleChange}
             required
           />
+
           {error && <p className={styles.error}>{error}</p>}
+
           <button type="submit" disabled={loading}>
             {loading ? "Logging in..." : loginData.button}
           </button>
         </form>
+
         <div className={styles.registerText}>
           {loginData.registerText}{" "}
           <Link to="/register">{loginData.registerLinkText}</Link>
