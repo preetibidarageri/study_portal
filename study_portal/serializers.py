@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import UserProfile
+from .models import Subject
 
 class RegisterSerializer (serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
@@ -31,3 +32,11 @@ class RegisterSerializer (serializers.ModelSerializer):
 
         UserProfile.objects.create(user=user, role=role)
         return user
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = ["id", "branch", "semester", "name", "code"]
+        read_only_fields = ["id"]
+
+

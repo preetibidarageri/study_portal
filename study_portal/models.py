@@ -9,7 +9,6 @@ class Branch(models.Model):
     class Meta:
         ordering = ['name']
 
-
 class Semester(models.Model):
     branch = models.ForeignKey(Branch,on_delete = models.CASCADE, related_name = 'semester')
     number = models.PositiveSmallIntegerField()
@@ -26,3 +25,16 @@ class UserProfile(models.Model):
     role = models.CharField(max_length=10, choices = ROLE_CHOICES)
     def __str__(self):
         return f"{self.user.username} - {self.role}"
+
+class Subject(models.Model):
+    branch = models.ForeignKey(Branch, on_delete = models.CASCADE, related_name = "Subjects")
+    semester = models.ForeignKey(Semester, on_delete = models.CASCADE, related_name = "Subjects")
+    name = models.CharField(max_length=100)
+    code = models.CharField(max_length=10, unique=True)
+    class Meta:
+        ordering = ['name']
+        constraints=[models.UniqueConstraint(fields=['semester', 'name'], name='unique_subject_per_semester')]
+    def __str__(self):
+        return f"{self.name} - {self.semester}"
+
+

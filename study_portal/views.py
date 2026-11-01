@@ -3,16 +3,19 @@ from django.shortcuts import render
 # to create registeration api add the following imports
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer,SubjectSerializer
 
 # to create profile api add folloiwng imports
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-# added this import to create Branch Api
-from .models import Branch,Semester
+# added this import to create Branch Apiand Semester Api
+from .models import Branch,Semester,Subject
 
+# validate user role for subject creation
+from rest_framework.exceptions import ValidationError
+from .permissions import IsTeacherOrReadOnly
 
 class RegisterView(generics.CreateAPIView):
     serializer_class  = RegisterSerializer
@@ -33,7 +36,7 @@ class UserProfileView(APIView):
         })
 
 class BranchListView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsTeacherOrReadOnly]
     def get(self, request):
         branches = Branch.objects.all().values('id', 'name')
         return Response({
@@ -54,3 +57,24 @@ class  SemesterListView(APIView):
             'semesters': list(semesters)
         })
 
+class SubjectListCreateView(generics.ListCreateAPIView):
+    serializer_class = SubjectSerializer
+    permission_classes = [IsTeacherOrReadOnly]
+
+    def get_queryset(self):
+        queryset = Subject.objects.select_related('branch', 'semester')
+        branch_id  = self.request.query_params.get('branch_id')
+        semester_id = self.request.query_params.get('semester_id')
+        if branch_id:
+            queryset = queryset.filter(branch_id=branch_id)
+        if semester_id:
+            queryset = queryset.filter(semester_id=semester_id)
+        return queryset
+
+    def perform_create(self, serializer):
+        branch = serializer.validated_data["branch"]
+        semester = serializer.validated_data["semester"]
+        if semester.branch != branch:
+            raise ValidationError({"semester": "Semester does not belong to the selected branch."})
+
+        serializer.save()
