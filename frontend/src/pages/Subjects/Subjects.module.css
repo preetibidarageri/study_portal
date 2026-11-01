@@ -1,0 +1,158 @@
+.page {
+  min-height: 100vh;
+  padding: 40px 7%;
+  background: #f4f7fb;
+  color: #1f2937;
+  font-family: Arial, sans-serif;
+}
+
+.backButton {
+  margin-bottom: 24px;
+  padding: 10px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #334155;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.backButton:hover {
+  background: #eaf0f7;
+}
+
+.heading {
+  margin: 0 0 8px;
+  color: #164e63;
+  font-size: 2rem;
+}
+
+.subtitle {
+  margin: 0 0 30px;
+  color: #64748b;
+  font-size: 1rem;
+}
+
+.section {
+  margin-bottom: 28px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 16px rgb(15 23 42 / 5%);
+}
+
+.sectionTitle {
+  margin: 0 0 18px;
+  color: #164e63;
+  font-size: 1.25rem;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #334155;
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #1e293b;
+  font: inherit;
+}
+
+.input:focus {
+  border-color: #0e7490;
+  outline: 3px solid rgb(14 116 144 / 12%);
+}
+
+.submitButton {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  background: #0e7490;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background: #155e75;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.subjectList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subjectCard {
+  padding: 18px;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.subjectName {
+  margin: 0 0 6px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.subjectCode {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.message {
+  margin: 12px 0;
+  color: #475569;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+.success {
+  color: #15803d;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 24px 16px;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .heading {
+    font-size: 1.6rem;
+  }
+
+  .section {
+    padding: 18px;
+  }
+}

@@ -1,22 +1,225 @@
 .home {
   min-height: 100vh;
-  width: 100%;
+  overflow: hidden;
+  background: #f7fafc;
+  color: #183247;
 }
 
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 570px;
+  box-sizing: border-box;
+  padding: 120px 8% 80px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at 50% 15%,
+      rgba(20, 184, 166, 0.13),
+      transparent 35%
+    ),
+    linear-gradient(135deg, #eef7f8 0%, #f8fbfd 55%, #eaf2f8 100%);
+}
+
+.heroContent {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  animation: fadeUp 0.7s ease both;
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  color: #0f766e;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.heroContent h1 {
+  margin: 0;
+  color: #123047;
+  font-size: clamp(1rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.hoverLetter {
+  display: inline-block;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.hoverLetter:hover {
+  color: #0f766e;
+  transform: translateY(-3px);
+}
+
+.heroDescription {
+  max-width: 650px;
+  margin: 24px auto 30px;
+  color: #526779;
+  font-size: 1.08rem;
+  line-height: 1.8;
+}
+
+.getStarted {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 26px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0f766e, #1763a6);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 9px 22px rgba(15, 118, 110, 0.2);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.getStarted:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 13px 28px rgba(15, 118, 110, 0.28);
+}
+
+/* Features */
 .features {
-  padding: 60px 7%;
+  padding: 90px 9%;
+  background: #fff;
+}
+
+.sectionHeader {
+  max-width: 700px;
+  margin: 0 auto 42px;
   text-align: center;
 }
 
-.features h2 {
-  color: #183b70;
-  margin-bottom: 35px;
-  font-size: 30px;
+.sectionHeader h2 {
+  margin: 0;
+  color: #123047;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .featureContainer {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.featureCard {
+  padding: 30px;
+  border: 1px solid #e1ebf0;
+  border-radius: 16px;
+  background: #fbfdfe;
+  box-shadow: 0 8px 24px rgba(18, 48, 71, 0.04);
+  animation: fadeUp 0.6s ease both;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-6px);
+  border-color: #b8dcd8;
+  box-shadow: 0 16px 32px rgba(18, 48, 71, 0.09);
+}
+
+.cardNumber {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #0f766e;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.featureCard h3 {
+  margin: 0 0 12px;
+  color: #173b52;
+  font-size: 1.2rem;
+}
+
+.featureCard p {
+  margin: 0;
+  color: #607487;
+  line-height: 1.75;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .hero {
+    min-height: 520px;
+    padding: 110px 7% 65px;
+  }
+
+  .features {
+    padding: 70px 7%;
+  }
+
+  .featureContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .hero {
+    min-height: 480px;
+    padding: 100px 6% 50px;
+  }
+
+  .heroContent h1 {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .heroDescription {
+    font-size: 1rem;
+  }
+
+  .features {
+    padding: 55px 6%;
+  }
+
+  .sectionHeader {
+    margin-bottom: 28px;
+  }
+
+  .featureContainer {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .featureCard {
+    padding: 24px;
+  }
 }

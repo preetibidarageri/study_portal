@@ -1,98 +1,185 @@
 .registerPage {
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
+  margin-top: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 16px;
-  background: #f4f7fb;
+  padding: 40px 20px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(20, 184, 166, 0.13),
+      transparent 35%
+    ),
+    linear-gradient(135deg, #eef6f8 0%, #f4f7fb 55%, #eaf1f8 100%);
 }
 
 .registerCard {
   width: 100%;
-  max-width: 480px;
-  padding: 32px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  max-width: 850px;
+  padding: 38px;
+  border: 1px solid rgba(203, 213, 225, 0.8);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 20px 55px rgba(15, 45, 65, 0.12);
 }
 
-.registerCard h1 {
-  margin: 0 0 8px;
-  color: #172554;
+.cardHeader {
+  margin-bottom: 30px;
   text-align: center;
 }
 
-.registerCard > p {
-  margin: 0 0 24px;
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #0f766e;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.cardHeader h1 {
+  margin: 0 0 10px;
+  color: #123047;
+  font-size: clamp(1.8rem, 4vw, 2.3rem);
+  font-weight: 750;
+}
+
+.cardHeader p {
+  margin: 0;
   color: #64748b;
-  text-align: center;
+  line-height: 1.6;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 22px;
 }
 
 .formGroup {
   display: flex;
+  min-width: 0;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 16px;
+  gap: 8px;
 }
 
 .formGroup label {
   color: #334155;
-  font-weight: 600;
+  font-size: 0.92rem;
+  font-weight: 650;
 }
 
 .formGroup input,
 .formGroup select {
   width: 100%;
-  padding: 11px 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font: inherit;
   box-sizing: border-box;
+  padding: 13px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #1e293b;
+  font: inherit;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.formGroup input::placeholder {
+  color: #94a3b8;
 }
 
 .formGroup input:focus,
 .formGroup select:focus {
-  outline: 2px solid #93c5fd;
-  border-color: #2563eb;
+  border-color: #0f9b8e;
+  outline: none;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(15, 155, 142, 0.13);
 }
 
-.registerCard button {
+.submitButton {
   width: 100%;
-  padding: 12px;
+  margin-top: 26px;
+  padding: 14px 18px;
   border: none;
-  border-radius: 6px;
-  background: #2563eb;
-  color: #ffffff;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0f766e, #1763a6);
+  color: #fff;
   font: inherit;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 8px 18px rgba(15, 118, 110, 0.2);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.registerCard button:disabled {
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 11px 22px rgba(15, 118, 110, 0.26);
+}
+
+.submitButton:disabled {
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.65;
 }
 
 .error {
-  margin: 0 0 16px;
+  margin: 18px 0 0;
+  padding: 11px 13px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
   color: #b91c1c;
+  overflow-wrap: anywhere;
 }
 
 .loginLinks {
-  margin-top: 20px;
+  margin-top: 26px;
   text-align: center;
   color: #64748b;
 }
 
 .loginLinks p {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
+}
+
+.loginLinkRow {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .loginLinks a {
-  color: #2563eb;
+  color: #0f766e;
+  font-weight: 650;
   text-decoration: none;
 }
 
 .loginLinks a:hover {
+  color: #1763a6;
   text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .registerPage {
+    min-height: calc(100vh - 60px);
+    padding: 24px 14px;
+  }
+
+  .registerCard {
+    padding: 26px 20px;
+    border-radius: 16px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .cardHeader {
+    margin-bottom: 24px;
+  }
 }

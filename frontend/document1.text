@@ -76,3 +76,4 @@ for student they can select branch then semester then after clicking semester na
 teacher-only subject creation and branch–semester validation.
 6.  Create a permission class In study_portal/permissions.py, add: permission code in python
 7.  Update the subject view
+8.   added subject in admin.py to manage by admin

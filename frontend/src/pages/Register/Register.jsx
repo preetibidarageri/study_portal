@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
 import registerData from "../../data/register.json";
 import api from "../../services/api";
+import Navbar from "../../components/Navbar/Navbar";
 
 function Register() {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: "",
     first_name: "",
@@ -14,6 +16,7 @@ function Register() {
     password: "",
     role: "student",
   });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -32,11 +35,9 @@ function Register() {
     try {
       await api.post("register/", formData);
 
-      if (formData.role === "student") {
-        navigate("/student/login");
-      } else {
-        navigate("/teacher/login");
-      }
+      navigate(
+        formData.role === "student" ? "/student/login" : "/teacher/login",
+      );
     } catch (err) {
       console.error(
         "Registration error:",
@@ -56,71 +57,99 @@ function Register() {
     }
   };
 
+  const fields = ["username", "first_name", "last_name", "email", "password"];
+
   return (
-    <div className={styles.registerPage}>
-      <div className={styles.registerCard}>
-        <h1>{registerData.title}</h1>
-        <p>{registerData.subtitle}</p>
+    <>
+      <Navbar />
 
-        <form onSubmit={handleSubmit}>
-          {["username", "first_name", "last_name", "email", "password"].map(
-            (field) => (
-              <div className={styles.formGroup} key={field}>
-                <label htmlFor={field}>
-                  {registerData.fields[field].label}
-                </label>
-                <input
-                  id={field}
-                  name={field}
-                  type={
-                    field === "password"
-                      ? "password"
-                      : field === "email"
-                        ? "email"
-                        : "text"
-                  }
-                  placeholder={registerData.fields[field].placeholder}
-                  value={formData[field]}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            ),
-          )}
-
-          <div className={styles.formGroup}>
-            <label htmlFor="role">{registerData.fields.role.label}</label>
-            <select
-              id="role"
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              required
-            >
-              <option value="student">
-                {registerData.fields.role.student}
-              </option>
-              <option value="teacher">
-                {registerData.fields.role.teacher}
-              </option>
-            </select>
+      <main className={styles.registerPage}>
+        <section className={styles.registerCard}>
+          <div className={styles.cardHeader}>
+            <span className={styles.eyebrow}>SKSV STUDY PORTAL</span>
+            <h1>{registerData.title}</h1>
+            <p>{registerData.subtitle}</p>
           </div>
 
-          {error && <p className={styles.error}>{error}</p>}
+          <form className={styles.registerForm} onSubmit={handleSubmit}>
+            <div className={styles.formGrid}>
+              {fields.map((field) => (
+                <div className={styles.formGroup} key={field}>
+                  <label htmlFor={field}>
+                    {registerData.fields[field].label}
+                  </label>
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Creating account..." : registerData.button}
-          </button>
-        </form>
+                  <input
+                    id={field}
+                    name={field}
+                    type={
+                      field === "password"
+                        ? "password"
+                        : field === "email"
+                          ? "email"
+                          : "text"
+                    }
+                    placeholder={registerData.fields[field].placeholder}
+                    value={formData[field]}
+                    onChange={handleChange}
+                    autoComplete={
+                      field === "password"
+                        ? "new-password"
+                        : field === "email"
+                          ? "email"
+                          : "off"
+                    }
+                    required
+                  />
+                </div>
+              ))}
 
-        <div className={styles.loginLinks}>
-          <p>{registerData.loginText}</p>
-          <Link to="/student/login">{registerData.studentLoginLink}</Link>
-          {" | "}
-          <Link to="/teacher/login">{registerData.teacherLoginLink}</Link>
-        </div>
-      </div>
-    </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="role">{registerData.fields.role.label}</label>
+
+                <select
+                  id="role"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="student">
+                    {registerData.fields.role.student}
+                  </option>
+                  <option value="teacher">
+                    {registerData.fields.role.teacher}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            {error && (
+              <p className={styles.error} role="alert">
+                {error}
+              </p>
+            )}
+
+            <button
+              className={styles.submitButton}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Creating account..." : registerData.button}
+            </button>
+          </form>
+
+          <div className={styles.loginLinks}>
+            <p>{registerData.loginText}</p>
+            <div className={styles.loginLinkRow}>
+              <Link to="/student/login">{registerData.studentLoginLink}</Link>
+              <span aria-hidden="true">•</span>
+              <Link to="/teacher/login">{registerData.teacherLoginLink}</Link>
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
 
