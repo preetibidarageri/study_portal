@@ -33,7 +33,7 @@ export default function StudentLogin() {
         setError("This login is only for students.");
         return;
       }
-      navigate("/student/dashboard");
+      navigate("/dashboard");
     } catch (err) {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");

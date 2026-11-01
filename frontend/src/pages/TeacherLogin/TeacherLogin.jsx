@@ -33,7 +33,7 @@ function TeacherLogin() {
 
       localStorage.setItem("accessToken", response.data.access);
       localStorage.setItem("refreshToken", response.data.refresh);
-      navigate("/teacher/dashboard");
+      navigate("/dashboard");
     } catch (err) {
       setError(
         err.response?.data?.detail ||
