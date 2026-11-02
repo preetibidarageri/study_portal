@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import styles from "./Subjects.module.css";
+import Navbar from "../../components/Navbar/Navbar";
+import DashboardNavbar from "../../components/DashboardNavbar/DashboardNavbar";
 
 function Subjects() {
   const { state } = useLocation();
@@ -27,7 +29,6 @@ function Subjects() {
     }
 
     loadSubjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [branch?.id, semester?.id, navigate]);
 
   const loadSubjects = async () => {
@@ -92,82 +93,96 @@ function Subjects() {
   if (!branch || !semester) return null;
 
   return (
-    <main className={styles.page}>
-      <button
-        type="button"
-        className={styles.backButton}
-        onClick={() => navigate("/dashboard")}
-      >
-        ← Back to dashboard
-      </button>
+    <>
+      <DashboardNavbar />
 
-      <h1 className={styles.heading}>Subjects</h1>
-      <p className={styles.subtitle}>
-        {branch.name} — {semester.name || `Semester ${semester.number}`}
-      </p>
+      <main className={styles.page}>
+        <header className={styles.pageTop}>
+          <div className={styles.pageTitleGroup}>
+            <p className={styles.subtitle}>
+              {branch.name} — {semester.name || `Semester ${semester.number}`}{" "}
+              Subjects
+            </p>
+            {/* <h1 className={styles.heading}>Subjects</h1> */}
+          </div>
 
-      {isTeacher && (
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Add subject</h2>
+          <button
+            type="button"
+            className={styles.backButton}
+            onClick={() => navigate("/dashboard")}
+          >
+            ← Back to Branches
+          </button>
+        </header>
 
-          <form className={styles.form} onSubmit={handleAddSubject}>
-            <label className={styles.field}>
-              Subject name
-              <input
-                className={styles.input}
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                required
-              />
-            </label>
+        {isTeacher && (
+          <>
+            <h2 className={styles.sectionTitle}>Add subjects</h2>
 
-            <label className={styles.field}>
-              Subject code
-              <input
-                className={styles.input}
-                value={code}
-                onChange={(event) => setCode(event.target.value)}
-                required
-              />
-            </label>
+            <section className={styles.section}>
+              <form className={styles.form} onSubmit={handleAddSubject}>
+                <label className={styles.field}>
+                  Subject name
+                  <input
+                    className={styles.input}
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    required
+                  />
+                </label>
 
-            <button
-              className={styles.submitButton}
-              type="submit"
-              disabled={saving}
-            >
-              {saving ? "Adding..." : "Add subject"}
-            </button>
-          </form>
-        </section>
-      )}
+                <label className={styles.field}>
+                  Subject code
+                  <input
+                    className={styles.input}
+                    value={code}
+                    onChange={(event) => setCode(event.target.value)}
+                    required
+                  />
+                </label>
 
-      {error && <p className={`${styles.message} ${styles.error}`}>{error}</p>}
-      {success && (
-        <p className={`${styles.message} ${styles.success}`}>{success}</p>
-      )}
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Available subjects</h2>
-
-        {loading ? (
-          <p className={styles.message}>Loading subjects...</p>
-        ) : subjects.length === 0 ? (
-          <p className={styles.message}>
-            No subjects have been added for this semester yet.
-          </p>
-        ) : (
-          <ul className={styles.subjectList}>
-            {subjects.map((subject) => (
-              <li className={styles.subjectCard} key={subject.id}>
-                <p className={styles.subjectName}>{subject.name}</p>
-                <span className={styles.subjectCode}>{subject.code}</span>
-              </li>
-            ))}
-          </ul>
+                <button
+                  className={styles.submitButton}
+                  type="submit"
+                  disabled={saving}
+                >
+                  {saving ? "Adding..." : "Add subject"}
+                </button>
+              </form>
+            </section>
+          </>
         )}
-      </section>
-    </main>
+
+        {error && (
+          <p className={`${styles.message} ${styles.error}`}>{error}</p>
+        )}
+
+        {success && (
+          <p className={`${styles.message} ${styles.success}`}>{success}</p>
+        )}
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Available subjects</h2>
+
+          {loading ? (
+            <p className={styles.message}>Loading subjects...</p>
+          ) : subjects.length === 0 ? (
+            <p className={styles.message}>
+              No subjects have been added for this semester yet.
+            </p>
+          ) : (
+            <ul className={styles.subjectList}>
+              {subjects.map((subject) => (
+                <li className={styles.subjectCard} key={subject.id}>
+                  <p className={styles.subjectName}>{subject.name}</p>
+                  <span className={styles.subjectCode}>{subject.code}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </main>
+    </>
   );
 }
 

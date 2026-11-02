@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./StudentDashboard.module.css";
 import dashboardData from "../../data/studentDashboard.json";
 import api from "../../services/api";
+import DashboardNavbar from "../../components/DashboardNavbar/DashboardNavbar";
 
 function StudentDashboard() {
   const navigate = useNavigate();
@@ -74,13 +75,6 @@ function StudentDashboard() {
     loadDashboard();
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("role");
-    navigate(userRole === "teacher" ? "/teacher/login" : "/student/login");
-  };
-
   const handleBranchClick = async (branch) => {
     setSelectedBranch(branch);
     setSelectedSemester(null);
@@ -100,32 +94,11 @@ function StudentDashboard() {
     }
   };
 
-  const handleHome = () => {
-    setSelectedBranch(null);
-    setSelectedSemester(null);
-    setSemesters([]);
-    setSemesterError("");
-    setShowBranches(false);
-  };
-
   const isTeacher = userRole === "teacher";
 
   return (
     <main className={styles.dashboardPage}>
-      <header className={styles.navbar}>
-        <span className={styles.brand}>
-          {isTeacher ? "SKSV Teacher Portal" : "SKSV Study Portal"}
-        </span>
-
-        <nav className={styles.navLinks}>
-          <button type="button" onClick={handleHome}>
-            Home
-          </button>
-          <button type="button" onClick={handleLogout}>
-            Log out
-          </button>
-        </nav>
-      </header>
+      <DashboardNavbar isTeacher={isTeacher} />
 
       <section className={styles.dashboardContent}>
         <div className={styles.dashboardIntro}>
@@ -216,42 +189,6 @@ function StudentDashboard() {
             )}
           </section>
         )}
-
-        {/* {selectedBranch && selectedSemester && (
-          <section className={styles.semesterSection}>
-            <button
-              type="button"
-              className={styles.backButton}
-              onClick={() => setSelectedSemester(null)}
-            >
-              ← Back to semesters
-            </button>
-
-            <h2>
-              {selectedBranch.name} —{" "}
-              {selectedSemester.name || `Semester ${selectedSemester.number}`}
-            </h2>
-
-            {isTeacher ? (
-              <div>
-                <p>Manage subjects and study materials for this semester.</p>
-                <button
-                  type="button"
-                  className={styles.chooseBranchButton}
-                  onClick={() =>
-                    alert(
-                      "The Add Subject form will be connected after the subjects API is ready.",
-                    )
-                  }
-                >
-                  Add Subject
-                </button>
-              </div>
-            ) : (
-              <p>Subjects for this branch and semester will appear here.</p>
-            )}
-          </section>
-        )} */}
       </section>
     </main>
   );

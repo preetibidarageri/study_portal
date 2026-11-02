@@ -77,3 +77,9 @@ teacher-only subject creation and branch–semester validation.
 6.  Create a permission class In study_portal/permissions.py, add: permission code in python
 7.  Update the subject view
 8.   added subject in admin.py to manage by admin
+
+subjects frontend completed
+
+-----------------------step 3 ; add Module model--------------------
+adding module in models
+
