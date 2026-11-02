@@ -85,3 +85,12 @@ adding module in models
 add serializer 
 add API view in views.py
 add url
+test api URLs
+add frontend 
+--------------------------step 4: Create the Material model---------------------
+same steps
+To Enable media file serving during development add this in settings.py
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = BASE_DIR / "media"
+
+config/urls.py add  this at bottom for local development: 
