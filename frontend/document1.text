@@ -82,4 +82,6 @@ subjects frontend completed
 
 -----------------------step 3 ; add Module model--------------------
 adding module in models
-
+add serializer 
+add API view in views.py
+add url

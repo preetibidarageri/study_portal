@@ -22,6 +22,14 @@ function Subjects() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const [showModulePopup, setShowModulePopup] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState(null);
+  const [moduleForm, setModuleForm] = useState({
+    number: "",
+    name: "",
+    description: "",
+  });
+
   useEffect(() => {
     if (!branch?.id || !semester?.id) {
       navigate("/dashboard", { replace: true });
@@ -88,6 +96,50 @@ function Subjects() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleAddModule = (subject) => {
+    setSelectedSubject(subject);
+    setModuleForm({ number: "", name: "", description: "" });
+    setShowModulePopup(true);
+  };
+
+  const handleModuleChange = (event) => {
+    setModuleForm({
+      ...moduleForm,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleModuleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      await api.post("/modules/", {
+        subject: selectedSubject.id,
+        number: Number(moduleForm.number),
+        name: moduleForm.name,
+        description: moduleForm.description,
+      });
+
+      setShowModulePopup(false);
+      setModuleForm({ number: "", name: "", description: "" });
+      alert("Module added successfully.");
+    } catch (error) {
+      console.error("Error adding module:", error);
+      alert(error.response?.data?.detail || "Could not add module.");
+    }
+  };
+
+  const handleViewModules = (subject) => {
+    navigate("/modules", {
+      state: {
+        subject,
+        branch,
+        semester,
+        role,
+      },
+    });
   };
 
   if (!branch || !semester) return null;
@@ -176,12 +228,79 @@ function Subjects() {
                 <li className={styles.subjectCard} key={subject.id}>
                   <p className={styles.subjectName}>{subject.name}</p>
                   <span className={styles.subjectCode}>{subject.code}</span>
+
+                  {role === "teacher" && (
+                    <button
+                      type="button"
+                      className={styles.addModuleButton}
+                      onClick={() => handleAddModule(subject)}
+                    >
+                      + Add Module
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    className={styles.viewModulesButton}
+                    onClick={() => handleViewModules(subject)}
+                  >
+                    View Modules
+                  </button>
                 </li>
               ))}
             </ul>
           )}
         </section>
       </main>
+      {showModulePopup && selectedSubject && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h2>Add Module</h2>
+            <p>{selectedSubject.name}</p>
+
+            <form onSubmit={handleModuleSubmit}>
+              <label>
+                Module Number
+                <input
+                  type="number"
+                  name="number"
+                  min="1"
+                  value={moduleForm.number}
+                  onChange={handleModuleChange}
+                  required
+                />
+              </label>
+
+              <label>
+                Module Name
+                <input
+                  type="text"
+                  name="name"
+                  value={moduleForm.name}
+                  onChange={handleModuleChange}
+                  required
+                />
+              </label>
+
+              <label>
+                Description / Syllabus
+                <textarea
+                  name="description"
+                  value={moduleForm.description}
+                  onChange={handleModuleChange}
+                />
+              </label>
+
+              <div className={styles.modalActions}>
+                <button type="submit">Add Module</button>
+                <button type="button" onClick={() => setShowModulePopup(false)}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }
