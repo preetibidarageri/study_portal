@@ -10,17 +10,28 @@ function StudentDashboard() {
   const navigate = useNavigate();
 
   const [userRole, setUserRole] = useState(localStorage.getItem("role") || "");
+
   const [branches, setBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState(null);
+
+  const [schemes, setSchemes] = useState([]);
+  const [selectedScheme, setSelectedScheme] = useState(null);
+
   const [semesters, setSemesters] = useState([]);
   const [selectedSemester, setSelectedSemester] = useState(null);
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+
   const [showBranches, setShowBranches] = useState(false);
+
+  const [schemeLoading, setSchemeLoading] = useState(false);
+  const [schemeError, setSchemeError] = useState("");
+
   const [semesterLoading, setSemesterLoading] = useState(false);
   const [semesterError, setSemesterError] = useState("");
 
+  // Load user profile and branches.
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
 
@@ -31,12 +42,14 @@ function StudentDashboard() {
 
     const loadDashboard = async () => {
       try {
-        // Read the logged-in user's role.
         const profileResponse = await api.get("profile/", {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         const profile = profileResponse.data;
+
         const role =
           profile.role ||
           profile.profile?.role ||
@@ -45,11 +58,15 @@ function StudentDashboard() {
           "";
 
         setUserRole(role);
-        if (role) localStorage.setItem("role", role);
 
-        // Load branches for both students and teachers.
+        if (role) {
+          localStorage.setItem("role", role);
+        }
+
         const branchResponse = await api.get("branches/", {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         const branchList = branchResponse.data.branches;
@@ -65,6 +82,7 @@ function StudentDashboard() {
           err.response?.status,
           err.response?.data,
         );
+
         setError(
           err.response?.data?.detail ||
             "Could not load the dashboard. Please log in again.",
@@ -73,22 +91,55 @@ function StudentDashboard() {
         setLoading(false);
       }
     };
+
     loadDashboard();
   }, [navigate]);
 
+  // Load schemes when a branch is selected.
   const handleBranchClick = async (branch) => {
     setSelectedBranch(branch);
+    setSelectedScheme(null);
+    setSelectedSemester(null);
+
+    setSchemes([]);
+    setSemesters([]);
+
+    setSchemeError("");
+    setSemesterError("");
+    setSchemeLoading(true);
+
+    try {
+      const response = await api.get(`schemes/?branch_id=${branch.id}`);
+
+      const data = response.data;
+
+      setSchemes(data.schemes ?? data);
+    } catch (err) {
+      console.error("Scheme API error:", err.response?.data || err);
+
+      setSchemeError("Could not load schemes. Please try again.");
+    } finally {
+      setSchemeLoading(false);
+    }
+  };
+
+  // Load semesters when a scheme is selected.
+  const handleSchemeClick = async (scheme) => {
+    setSelectedScheme(scheme);
     setSelectedSemester(null);
     setSemesters([]);
     setSemesterError("");
     setSemesterLoading(true);
 
     try {
-      const response = await api.get(`semesters/?branch_id=${branch.id}`);
+      const response = await api.get(`semesters/?scheme_id=${scheme.id}`);
+
       const data = response.data;
+
       setSemesters(data.semesters ?? data);
     } catch (err) {
       console.error("Semester API error:", err.response?.data || err);
+
       setSemesterError("Could not load semesters. Please try again.");
     } finally {
       setSemesterLoading(false);
@@ -107,7 +158,7 @@ function StudentDashboard() {
 
           <p>
             {isTeacher
-              ? "Choose a branch and semester to manage subjects and study materials."
+              ? "Choose a branch, scheme, and semester to manage subjects and study materials."
               : dashboardData.subtitle}
           </p>
 
@@ -123,8 +174,10 @@ function StudentDashboard() {
         </div>
 
         {loading && <p>Loading dashboard...</p>}
+
         {error && <p className={styles.error}>{error}</p>}
 
+        {/* Branch selection */}
         {!loading &&
           showBranches &&
           !selectedBranch &&
@@ -135,10 +188,13 @@ function StudentDashboard() {
                   type="button"
                   className={styles.branchCard}
                   key={branch.id}
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                  }}
                   onClick={() => handleBranchClick(branch)}
                 >
                   <span className={styles.branchName}>{branch.name}</span>
+
                   <span className={styles.cardArrow}>Select branch →</span>
                 </button>
               ))}
@@ -147,26 +203,76 @@ function StudentDashboard() {
             <p>No branches were returned by the API.</p>
           ))}
 
-        {selectedBranch && !selectedSemester && (
+        {/* Scheme selection */}
+        {selectedBranch && !selectedScheme && (
           <section className={styles.semesterSection}>
             <button
               type="button"
               className={styles.backButton}
               onClick={() => {
                 setSelectedBranch(null);
-                setSemesters([]);
-                setSemesterError("");
+                setSchemes([]);
+                setSchemeError("");
               }}
             >
               ← Back to branches
             </button>
 
-            <h2>{selectedBranch.name} — Choose Semester</h2>
+            <h2>{selectedBranch.name} — Choose Scheme</h2>
+
+            {schemeLoading && <p>Loading schemes...</p>}
+
+            {schemeError && <p className={styles.error}>{schemeError}</p>}
+
+            {!schemeLoading && !schemeError && schemes.length === 0 && (
+              <p>No schemes are available for this branch.</p>
+            )}
+
+            {!schemeLoading && !schemeError && schemes.length > 0 && (
+              <div className={styles.semesterGrid}>
+                {schemes.map((scheme) => (
+                  <button
+                    key={scheme.id}
+                    type="button"
+                    className={styles.semesterCard}
+                    onClick={() => handleSchemeClick(scheme)}
+                  >
+                    {scheme.name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* Semester selection */}
+        {selectedBranch && selectedScheme && !selectedSemester && (
+          <section className={styles.semesterSection}>
+            <button
+              type="button"
+              className={styles.backButton}
+              onClick={() => {
+                setSelectedScheme(null);
+                setSemesters([]);
+                setSemesterError("");
+              }}
+            >
+              ← Back to schemes
+            </button>
+
+            <h2>
+              {selectedBranch.name} — {selectedScheme.name} — Choose Semester
+            </h2>
 
             {semesterLoading && <p>Loading semesters...</p>}
+
             {semesterError && <p className={styles.error}>{semesterError}</p>}
 
-            {!semesterLoading && !semesterError && (
+            {!semesterLoading && !semesterError && semesters.length === 0 && (
+              <p>No semesters are available for this scheme.</p>
+            )}
+
+            {!semesterLoading && !semesterError && semesters.length > 0 && (
               <div className={styles.semesterGrid}>
                 {semesters.map((semester) => (
                   <button
@@ -177,6 +283,7 @@ function StudentDashboard() {
                       navigate("/subjects", {
                         state: {
                           branch: selectedBranch,
+                          scheme: selectedScheme,
                           semester,
                           role: userRole,
                         },

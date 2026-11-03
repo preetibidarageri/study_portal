@@ -3,7 +3,7 @@ from .views import RegisterView
 # for login api creation added this import
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 # profile API added this import
-from .views import RegisterView, UserProfileView, BranchListView, SemesterListView, SubjectListCreateView, ModuleListCreateView, MaterialListCreateView
+from .views import RegisterView, UserProfileView, BranchListView, SemesterListView, SubjectListCreateView, ModuleListCreateView, MaterialListCreateView, SchemeListView
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('subjects/', SubjectListCreateView.as_view(), name='subjects'),
     path('modules/', ModuleListCreateView.as_view(), name='modules'),
     path('materials/', MaterialListCreateView.as_view(), name='materials'),
+    path("schemes/", SchemeListView.as_view(), name="scheme-list"),   
 ]

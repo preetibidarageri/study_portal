@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 # added this import to create Branch Apiand Semester Api
-from .models import Branch,Semester,Subject, Module, UserProfile, Material
+from .models import Branch, Scheme, Semester,Subject, Module, UserProfile, Material
 
 # validate user role for subject creation
 from rest_framework.exceptions import ValidationError
@@ -46,16 +46,28 @@ class BranchListView(APIView):
             'branches': list(branches)
         })
 
+class SchemeListView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        branch_id = request.query_params.get("branch_id")
+        if not branch_id:
+            return Response({"error": "Please provide branch_id"},status=400)
+
+        schemes = Scheme.objects.filter(branch_id=branch_id).values("id", "name", "code")
+        return Response({
+            "schemes": list(schemes)
+        })
+
 class  SemesterListView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        branch_id = request.query_params.get('branch_id')
-        if not branch_id:
+        scheme_id = request.query_params.get('scheme_id')
+        if not scheme_id:
             return Response({
-                'error': "Please Provide Branch Id"
+                'error': "Please Provide Scheme Id"
             }, status=400)
 
-        semesters = Semester.objects.filter(branch_id=branch_id).values('id', 'number', 'name')
+        semesters = Semester.objects.filter(scheme_id=scheme_id).values('id', 'number', 'name')
         return Response({
             'semesters': list(semesters)
         })
@@ -77,7 +89,7 @@ class SubjectListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         branch = serializer.validated_data["branch"]
         semester = serializer.validated_data["semester"]
-        if semester.branch != branch:
+        if semester.scheme.branch != branch:
             raise ValidationError({"semester": "Semester does not belong to the selected branch."})
 
         serializer.save()
