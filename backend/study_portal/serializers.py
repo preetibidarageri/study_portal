@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import UserProfile
 from .models import Subject, Module, Material
+from django.conf import settings
+from django.core.mail import send_mail
 
 class RegisterSerializer (serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
@@ -30,7 +32,24 @@ class RegisterSerializer (serializers.ModelSerializer):
         user.set_password(password)
         user.save()
 
-        UserProfile.objects.create(user=user, role=role)
+        UserProfile.objects.create(
+            user=user,
+            role=role
+        )
+
+        send_mail(
+            subject='New registration - SKSV Study Material Portal',
+            message=(
+                f'A new user has registered.\n\n'
+                f'Username: {user.username}\n'
+                f'Email: {user.email}\n'
+                f'Role: {role}\n'
+            ),
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[settings.REGISTRATION_NOTIFICATION_EMAIL],
+            fail_silently=False,
+        )
+
         return user
 
 class SubjectSerializer(serializers.ModelSerializer):
