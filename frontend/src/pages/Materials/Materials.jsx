@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import DashboardNavbar from "../../components/DashboardNavbar/DashboardNavbar";
 import styles from "./Materials.module.css";
+import Footer from "../../components/Footer/Footer";
 
 const CATEGORIES = [
   { value: "pdf", label: "PDF Notes" },
@@ -65,8 +66,6 @@ function Materials() {
 
   useEffect(() => {
     fetchMaterials();
-    // fetchMaterials changes only when the selected module changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [module?.id]);
 
   const resetForm = () => {
@@ -297,7 +296,7 @@ function Materials() {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          {getMaterialAction(material)} <span>↗</span>
+                          {getMaterialAction(material)} <span></span>
                         </a>
                       ) : (
                         <span className={styles.unavailable}>

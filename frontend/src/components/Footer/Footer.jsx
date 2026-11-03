@@ -6,7 +6,8 @@ function Footer() {
 
   return (
     <footer className={styles.footer} id="contact">
-      <p>{footer.copyright}</p>
+      <p className={styles.copyright}>{footer.copyright}</p>
+      <p className={styles.developer}>{footer.developer}</p>
     </footer>
   );
 }

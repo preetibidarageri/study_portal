@@ -93,4 +93,27 @@ To Enable media file serving during development add this in settings.py
     MEDIA_URL = "/media/"
     MEDIA_ROOT = BASE_DIR / "media"
 
-config/urls.py add  this at bottom for local development: 
+config/urls.py add  this at bottom for local development:
+
+------------------access token time enhance-------------
+add this in settings.py
+
+    from datetime import timedelta
+    SIMPLE_JWT = {
+        "ACCESS_TOKEN_LIFETIME": timedelta(hours=24),
+        "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    }
+
+---------------------------------send registration notifications to your personal Gmail.-------------------------------------
+Step 1: Create a Gmail App Password
+    Open your Google Account’s Security settings.
+    Turn on 2-Step Verification if it isn’t already enabled.
+    Find App passwords and create one for this project.
+    Copy the generated app password and keep it private. Don’t paste it here.
+
+Step 2: Add email settings to Django
+    In backend/config/settings.py, add: code 
+
+Step 3: Add notification to your registration serializer
+from django.conf import settings
+from django.core.mail import send_mail

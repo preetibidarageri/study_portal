@@ -57,13 +57,39 @@
   overflow-wrap: anywhere;
 }
 
-/* Available modules section */
 .moduleSection {
   padding: 28px;
   border: 1px solid #e1ebf0;
   border-radius: 16px;
   background: #ffffff;
   box-shadow: 0 8px 24px rgba(18, 48, 71, 0.05);
+}
+
+.moduleSection {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 8px 4px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #087f8c #eaf5f3;
+}
+
+.moduleSection::-webkit-scrollbar {
+  width: 8px;
+}
+
+.moduleSection::-webkit-scrollbar-track {
+  background: #eaf5f3;
+  border-radius: 8px;
+}
+
+.moduleSection::-webkit-scrollbar-thumb {
+  background: #087f8c;
+  border-radius: 8px;
+}
+
+.moduleSection::-webkit-scrollbar-thumb:hover {
+  background: #055e66;
 }
 
 .sectionHeader {
@@ -73,6 +99,7 @@
   gap: 12px;
   margin-bottom: 26px;
   text-align: center;
+  margin-top: 10px;
 }
 
 .sectionHeader h2 {

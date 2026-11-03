@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Modules.module.css";
 import api from "../../services/api";
 import DashboardNavbar from "../../components/DashboardNavbar/DashboardNavbar";
+import Footer from "../../components/Footer/Footer";
 
 export default function Modules() {
   const location = useLocation();

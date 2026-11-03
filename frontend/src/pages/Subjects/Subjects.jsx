@@ -4,6 +4,7 @@ import api from "../../services/api";
 import styles from "./Subjects.module.css";
 import Navbar from "../../components/Navbar/Navbar";
 import DashboardNavbar from "../../components/DashboardNavbar/DashboardNavbar";
+import Footer from "../../components/Footer/Footer";
 
 function Subjects() {
   const { state } = useLocation();

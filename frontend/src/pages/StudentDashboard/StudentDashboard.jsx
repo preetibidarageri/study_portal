@@ -4,6 +4,7 @@ import styles from "./StudentDashboard.module.css";
 import dashboardData from "../../data/studentDashboard.json";
 import api from "../../services/api";
 import DashboardNavbar from "../../components/DashboardNavbar/DashboardNavbar";
+import Footer from "../../components/Footer/Footer";
 
 function StudentDashboard() {
   const navigate = useNavigate();
