@@ -59,7 +59,12 @@ class Module(models.Model):
         return f"{self.subject}- Module {self.number}: {self.name}"
 
 class Material(models.Model):
-    CATEGORY_CHOICES = [("pdf", "PDF"),("ppt", "PPT"),("video", "Video Link"),]
+    CATEGORY_CHOICES = [
+        ("pdf", "PDF"),
+        ("ppt", "PowerPoint"),
+        ("video", "Video Link"),
+        ("link", "External Link"),
+    ]    
     module = models.ForeignKey(Module,on_delete=models.CASCADE,related_name="materials",)
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES)
     heading = models.CharField(max_length=200, blank=True)

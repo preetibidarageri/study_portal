@@ -81,28 +81,36 @@ class MaterialSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "uploaded_by", "uploaded_at"]
 
     def validate(self, attrs):
-        category = attrs.get("category")
-        file = attrs.get("file")
-        video_url = attrs.get("video_url", "")
+        category = attrs.get(
+            "category",
+            getattr(self.instance, "category", None)
+        )
+        uploaded_file = attrs.get("file")
+        video_url = attrs.get(
+            "video_url",
+            getattr(self.instance, "video_url", "")
+        )
 
-        if category in ["pdf", "ppt"] and not file:
+        if category in ["pdf", "ppt"] and not uploaded_file:
             raise serializers.ValidationError({
                 "file": "Upload a file for PDF or PPT materials."
             })
 
-        if category == "video" and not video_url:
+        if category in ["video", "link"] and not video_url:
             raise serializers.ValidationError({
-                "video_url": "Enter a video link."
+                "video_url": "Enter a link for this material."
             })
 
-        if category == "pdf" and file and not file.name.lower().endswith(".pdf"):
-            raise serializers.ValidationError({
-                "file": "Please upload a PDF file."
-            })
+        if category == "pdf" and uploaded_file:
+            if not uploaded_file.name.lower().endswith(".pdf"):
+                raise serializers.ValidationError({
+                    "file": "Please upload a PDF file."
+                })
 
-        if category == "ppt" and file and not file.name.lower().endswith((".ppt", ".pptx")):
-            raise serializers.ValidationError({
-                "file": "Please upload a PPT or PPTX file."
-            })
+        if category == "ppt" and uploaded_file:
+            if not uploaded_file.name.lower().endswith((".ppt", ".pptx")):
+                raise serializers.ValidationError({
+                    "file": "Please upload a PPT or PPTX file."
+                })
 
         return attrs
