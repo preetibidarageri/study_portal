@@ -37,18 +37,18 @@ class RegisterSerializer (serializers.ModelSerializer):
             role=role
         )
 
-        send_mail(
-            subject='New registration - SKSV Study Material Portal',
-            message=(
-                f'A new user has registered.\n\n'
-                f'Username: {user.username}\n'
-                f'Email: {user.email}\n'
-                f'Role: {role}\n'
-            ),
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[settings.REGISTRATION_NOTIFICATION_EMAIL],
-            fail_silently=False,
-        )
+        # send_mail(
+        #     subject='New registration - SKSV Study Material Portal',
+        #     message=(
+        #         f'A new user has registered.\n\n'
+        #         f'Username: {user.username}\n'
+        #         f'Email: {user.email}\n'
+        #         f'Role: {role}\n'
+        #     ),
+        #     from_email=settings.EMAIL_HOST_USER,
+        #     recipient_list=[settings.REGISTRATION_NOTIFICATION_EMAIL],
+        #     fail_silently=False,
+        # )
 
         return user
 
