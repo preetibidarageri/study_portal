@@ -174,7 +174,7 @@ CORS_ALLOWED_ORIGINS += [
     for origin in os.environ.get("CORS_ALLOWED_ORIGINS", "").split(",")
     if origin.strip()
 ]
-#  To Enable media file serving during development
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
